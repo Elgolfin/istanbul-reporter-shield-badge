@@ -42,7 +42,7 @@ colors: brightgreen green yellowgreen yellow orange red lightgrey blue ff69b4 (p
 
 */
 
-function ShieldBadgeReporter(opts) {
+function ShieldBadgeReporter (opts) {
   this.opts = opts || {}
   this.opts.dir = this.opts.dir || process.cwd()
   this.opts.file = this.opts.file || this.getDefaultConfig().file
@@ -50,6 +50,7 @@ function ShieldBadgeReporter(opts) {
   this.subject = this.opts.subject || this.getDefaultConfig().subject
   this.coverageType = this.opts.coverageType || this.getDefaultConfig().coverageType
   this.range = this.opts.range || this.getDefaultConfig().range
+  this.addToFile = this.opts.addToFile || null
   this.coverageType.toLowerCase()
 }
 
@@ -72,12 +73,16 @@ Report.mix(ShieldBadgeReporter, {
 
   writeReport: function(collector, sync) {
     var outputFile = path.resolve(this.opts.dir, this.opts.file)
+    if (typeof addToFile === 'string') {
+      var addToFile = path.resolve(this.opts.dir, this.opts.addTofile)
+    }
     var writer = this.opts.writer || new FileWriter(sync)
     var that = this
     var summaries = []
     var finalSummary
     var metrics
-    var badge
+    var badgeUrl
+    var badgeMd
     var colors = {
       low: 'red',
       medium: 'yellow',
@@ -96,11 +101,11 @@ Report.mix(ShieldBadgeReporter, {
 
     metrics = finalSummary[this.coverageType]
     level = metrics.pct >= this.range[1] ? 'high' : metrics.pct >= this.range[0] ? 'medium' : 'low'
-    badge = `https://img.shields.io/badge/${this.subject}-${metrics.pct}%25-${colors[level]}.svg`
-    badge += `\n[![${this.subject}](${badge})](${badge})`
+    badgeUrl = 'https://img.shields.io/badge/' + this.subject + '-' + metrics.pct + '%25-' + colors[level] +'.svg'
+    badgeMd = '[![' + badgeUrl + '](' + badgeUrl + ')](' + badgeUrl + ')'
 
     writer.writeFile(outputFile, function(contentWriter) {
-      contentWriter.write(badge)
+      contentWriter.write(badgeUrl + '\n' + badgeMd)
     })
 
     writer.done()
