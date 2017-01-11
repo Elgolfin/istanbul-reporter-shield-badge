@@ -1,0 +1,32 @@
+{
+  "name": "istanbul-reporter-shield-badge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "istanbul-reporter-shield-badge.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Elgolfin/istanbul-reporter-shield-badge.git"
+  },
+  "keywords": [
+    "istanbul",
+    "reporter",
+    "shield",
+    "badge",
+    "markdown",
+    "karma",
+    "shields.io"
+  ],
+  "author": "Elgolfin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Elgolfin/istanbul-reporter-shield-badge/issues"
+  },
+  "homepage": "https://github.com/Elgolfin/istanbul-reporter-shield-badge#readme",
+  "devDependencies": {
+    "istanbul": "^0.4.5"
+  },
+  "peerDependencies": {
+    "istanbul": "^0.4.5"
+  }
+}
