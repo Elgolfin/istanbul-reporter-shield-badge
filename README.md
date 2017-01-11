@@ -71,7 +71,7 @@ config.set({
                 }(),
           subdir: '.',
           coverageType: 'statements',
-          range: [50, 75],
+          range: [50, 80],
           subject: 'Code Coverage'
         }
       ]
@@ -80,7 +80,7 @@ config.set({
 ```
 
 The example above will generate the following shields.io badge for a coverage percentage of 77.91% at the statements level: 
-[![coverage](https://img.shields.io/badge/Code Coverage-77.91%25-yellow.svg)](https://img.shields.io/badge/Code Coverage-77.91%25-yellow.svg)
+[![Code Coverage](https://img.shields.io/badge/Code Coverage-77.91%25-brightgreen.svg)](https://img.shields.io/badge/Code Coverage-77.91%25-brightgreen.svg)
 
 ## LICENSE
 
