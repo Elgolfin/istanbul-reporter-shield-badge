@@ -1,6 +1,6 @@
 ![coverage-shield-badge-1](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)
 
-# Istanbul Report Shields.io Badge
+# Istanbul Reporter Shields.io Badge
 
 Generates a shields.io url representing the coverage of your tests suit.
 Also generates the markdown equivalent code.
@@ -47,13 +47,13 @@ config.set({
 ```
 
 ### Config options
-|name          |default                  |description                                                                                                                      |
-|--------------|-------------------------|---------------------------------------------------------------------------------------------------------------------------------|
-|file          |coverage.shield.badge.md |the file where the url of the badge will be generated                                                                            |
-|subject       |coverage                 |the text that will appear on the left of the shield badge                                                                        |
-|range         |[50, 80]                 |must be a JavaScript Array representing medium and high levels of coverage                                                       |
-|coverageType  |lines                    |must be one of: statements, lines, branches, functions; will be used to display the coverage percentage of the chosen type       |
-|readmeFilename|null                     |the name of your readme file; **MUST BE readme.md (only) in its exact case; the Readme file MUST BE at the root of your project**|
+|name          |default                  |description                                                                                                                       |
+|--------------|-------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+|file          |coverage.shield.badge.md |the file where the url of the badge will be generated                                                                             |
+|subject       |coverage                 |the text that will appear on the left of the shield badge                                                                         |
+|range         |[50, 80]                 |must be a JavaScript Array representing medium and high levels of coverage                                                        |
+|coverageType  |lines                    |must be one of: statements, lines, branches, functions; will be used to display the coverage percentage of the chosen type        |
+|readmeFilename|null                     |the name of your readme file; **MUST BE readme.md (only) in this exact case; the Readme file MUST BE at the root of your project**|
 
 N.b: if you supply the readmeFilename configuration, the reporter will add the markdown of the badge into your Readme.md file at the very beginning of the file.
 Once added, you are free to move the markdown code anywhere wihtin the Readme.md file and the next time the reporter will run, 
