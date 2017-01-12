@@ -17,6 +17,7 @@ var instrumenter = new istanbul.Instrumenter({
 istanbul.Report.register(shieldBadgeReporter)
 var report = Report.create('shield-badge', {
   readmeFilename: 'README.md',
+  readmeDir: path.resolve(__dirname, '.'),
   dir: 'coverage'
 })
 
@@ -29,7 +30,7 @@ try {
     // collector.add(instrumented) // Generates an error for some reason, no more time to investigate this
   })
   report.on('done', function () { 
-    console.log('The badge has been added to the README.md file')
+    // console.log('The badge has been added to the README.md file')
   })
   report.writeReport(collector);
 } catch (err) {

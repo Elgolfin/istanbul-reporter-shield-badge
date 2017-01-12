@@ -53,7 +53,8 @@ config.set({
 |subject       |coverage                 |the text that will appear on the left of the shield badge                                                                         |
 |range         |[50, 80]                 |must be a JavaScript Array representing medium and high levels of coverage                                                        |
 |coverageType  |lines                    |must be one of: statements, lines, branches, functions; will be used to display the coverage percentage of the chosen type        |
-|readmeFilename|null                     |the name of your readme file; **MUST BE readme.md (only) in this exact case; the Readme file MUST BE at the root of your project**|
+|readmeFilename|null                     |the name of your readme file; **MUST BE readme.md (only) in any case                                                              |
+|readmeDir     |null                     |the **absolute** path of the folder where is located your readme.md file                                                                       |
 
 N.b: if you supply the readmeFilename configuration, the reporter will add the markdown of the badge into your Readme.md file at the very beginning of the file.
 Once added, you are free to move the markdown code anywhere wihtin the Readme.md file and the next time the reporter will run, 
@@ -77,17 +78,18 @@ config.set({
                 }(),
           subdir: '.',
           coverageType: 'statements',
-          range: [50, 75],
+          range: [75, 90],
           subject: 'Code Coverage', 
-          readmeFilename: 'README.md'
+          readmeFilename: 'README.md',
+          readmeDir: path.resolve(__dirname, '../..') // i.e. if karma.conf.js is located in test/unit from the root folder of your project
         }
       ]
     }
   })
 ```
 
-The example above will generate the following shields.io badge for a coverage percentage of 77.91% at the statements level: 
-![Code Coverage-shield-badge-1](https://img.shields.io/badge/Code%20Coverage-77.91%25-brightgreen.svg)
+The example above will generate the following shields.io badge for a coverage percentage of 88% at the statements level: 
+![Code Coverage-shield-badge-](https://img.shields.io/badge/Code%20Coverage-88%25-yellow.svg)
 
 It will also include it in the README.md file located at the root of your project.
 

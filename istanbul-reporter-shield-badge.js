@@ -66,6 +66,7 @@ function ShieldBadgeReporter (opts) {
   } else {
     this.readmeFilename = null
   }
+  this.readmeDir = this.opts.readmeDir || this.getDefaultConfig().readmeDir
   this.range = this.opts.range || this.getDefaultConfig().range
 }
 
@@ -83,6 +84,7 @@ Report.mix(ShieldBadgeReporter, {
       subject: 'coverage',
       range: [50, 80],
       readmeFilename: null,
+      readmeDir: null,
       coverageType: 'lines' // Could be one of: statements, branches, functions, lines
     }
   },
@@ -142,13 +144,18 @@ Report.mix(ShieldBadgeReporter, {
       cb(result)
       return
     }
+
     var readmeFile = path.resolve(__dirname, this.readmeFilename)
+    if (this.readmeDir !== null) {
+      var readmeFile = path.resolve(__dirname, this.readmeDir, this.readmeFilename)
+    }
     fs.readFile(readmeFile, 'utf8', function (err, data) {
       if (err) {
         result.error = err
         cb(result)
       } else {
-        var re = /!\[[ a-z0-9]+-shield-badge-[0-9]\]\([^)]+\)/g
+        var re = /!\[.+-shield-badge-[0-9]\]\([^)]+\)/gi  // Greedy
+        // var re = /!\[[ a-z0-9]+-shield-badge-[0-9]\]\([^)]+\)/gi  // Not greedy but restrictive
         var resultData = data.replace(re, badgeMarkdown);
 
         // The badge markdown was not present, append the badge markdown at the beginning of the file
@@ -208,7 +215,12 @@ Report.mix(ShieldBadgeReporter, {
       that.replaceInFile(badgeMarkdown, 
       /* istanbul ignore next */
       function (result) {
-        // result.success
+        if (result.success) {
+          var txt = result.create ? 'added' : 'updated'
+          console.log('The shield badge has been ' + txt + ' in your ' + that.readmeFilename + ' file')
+        } else {
+          console.log('Error while adding/updating the shield badge in your ' + that.readmeFilename + ' file: ' + result.error)
+        }
       })
     })
 
