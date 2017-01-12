@@ -1,9 +1,12 @@
 {
   "name": "istanbul-reporter-shield-badge",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "",
   "main": "istanbul-reporter-shield-badge.js",
-  "scripts": {},
+  "scripts": {
+    "test": "istanbul cover _mocha test && node manage-badge.js",
+    "testwatch": "mocha test -w"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Elgolfin/istanbul-reporter-shield-badge.git"
@@ -24,9 +27,19 @@
   },
   "homepage": "https://github.com/Elgolfin/istanbul-reporter-shield-badge#readme",
   "devDependencies": {
-    "istanbul": "^0.4.5"
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.5",
+    "lodash.includes": "^4.3.0",
+    "mocha": "^3.2.0",
+    "sinon": "^1.17.7",
+    "sinon-chai": "^2.8.0"
   },
   "peerDependencies": {
-    "istanbul": "^0.4.5"
+    "istanbul": "^0.4.5",
+    "lodash.includes": "^4.3.0"
+  },
+  "dependencies": {
+    "istanbul": "^0.4.5",
+    "lodash.includes": "^4.3.0"
   }
 }

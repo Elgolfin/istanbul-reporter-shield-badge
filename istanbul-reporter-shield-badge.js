@@ -24,13 +24,21 @@ SOFTWARE.
 
 'use strict'
 
-var util = require('util')
 var path = require('path')
+var fs = require('fs')
+var util = require('util')
 var istanbul = require('istanbul')
-var utils = require('istanbul').utils;
-
+var utils = require('istanbul').utils
+var _includes = require('lodash.includes')
+// var find = require("../find-in-files").find
 var Report = istanbul.Report
 var FileWriter = istanbul.FileWriter
+var acceptedTypes = ['lines', 'statements', 'functions', 'branches']
+var colors = {
+  low: 'red',
+  medium: 'yellow',
+  high: 'brightgreen'
+}
 
 /*
 https://img.shields.io/badge/<SUBJECT>-<STATUS>-<COLOR>.svg
@@ -48,10 +56,17 @@ function ShieldBadgeReporter (opts) {
   this.opts.file = this.opts.file || this.getDefaultConfig().file
   this.opts.writer = this.opts.writer || null
   this.subject = this.opts.subject || this.getDefaultConfig().subject
-  this.coverageType = this.opts.coverageType || this.getDefaultConfig().coverageType
+  if (typeof this.opts.coverageType === 'string' && _includes(acceptedTypes, this.opts.coverageType.toLowerCase())) {
+    this.coverageType = this.opts.coverageType.toLowerCase()
+  } else {
+    this.coverageType = this.getDefaultConfig().coverageType
+  }
+  if (typeof this.opts.readmeFilename === 'string' && /readme\.md/i.test(this.opts.readmeFilename)) {
+    this.readmeFilename = this.opts.readmeFilename
+  } else {
+    this.readmeFilename = null
+  }
   this.range = this.opts.range || this.getDefaultConfig().range
-  this.addToFile = this.opts.addToFile || null
-  this.coverageType.toLowerCase()
 }
 
 ShieldBadgeReporter.TYPE = 'shield-badge'
@@ -67,45 +82,134 @@ Report.mix(ShieldBadgeReporter, {
       file: 'coverage.shield.badge.md',
       subject: 'coverage',
       range: [50, 80],
+      readmeFilename: null,
       coverageType: 'lines' // Could be one of: statements, branches, functions, lines
     }
   },
 
-  writeReport: function(collector, sync) {
-    var outputFile = path.resolve(this.opts.dir, this.opts.file)
-    if (typeof addToFile === 'string') {
-      var addToFile = path.resolve(this.opts.dir, this.opts.addTofile)
+  generateBadgeUrl: function (metrics) {
+    var level = metrics.pct >= this.range[1] ? 'high' : metrics.pct >= this.range[0] ? 'medium' : 'low'
+    return 'https://img.shields.io/badge/' + encodeURIComponent(this.subject) + '-' + metrics.pct + '%25-' + colors[level] +'.svg'
+  },
+
+  generateBadgeMarkdown: function (badgeUrl) {
+    return '![' + this.subject + '-shield-badge-1](' + badgeUrl + ')'
+  },
+
+  /*
+  Useless at this moment, prototype to modify several files at once
+  */
+  /*
+  replaceInFile_Prototype: function (cb) {
+    // 1. find
+    // 2. if found = replace
+    // 3. if not found = append at the top
+    // regex: '!\[[ a-z0-9]+-shield-badge-[0-9]+\]\[[^\]]\]',
+    var foundFiles = 0
+    var error = ''
+    var readmeFilename = this.readmeFilename
+    if (readmeFilename !== null) {
+      find('test123', '.', '\\.md$')
+      .then(function (results) {
+        if (results.hasOwnProperty(readmeFilename)) {
+          foundFiles++
+        }
+      })
+      .fail(function (err) {
+        error = err
+        foundFiles = -1
+      })
+      .fin(function () {
+        cb({error: error, foundFiles: foundFiles})
+      })
+      .done()
+    } else {
+      cb({error: 'The readmeFilename config property was not set', foundFiles: -1})
     }
+  },
+  */
+
+  replaceInFile: function (badgeMarkdown, cb) {
+    var result = {
+      error: '',
+      success: false,
+      create: false,
+      update: false
+    }
+    var readmeFilename = this.readmeFilename
+    if (readmeFilename === null) {
+      result.error = 'The readmeFilename config property was not set (or not set properly)'
+      cb(result)
+      return
+    }
+    var readmeFile = path.resolve(__dirname, this.readmeFilename)
+    fs.readFile(readmeFile, 'utf8', function (err, data) {
+      if (err) {
+        result.error = err
+        cb(result)
+      } else {
+        var re = /!\[[ a-z0-9]+-shield-badge-[0-9]\]\([^)]+\)/g
+        var resultData = data.replace(re, badgeMarkdown);
+
+        // The badge markdown was not present, append the badge markdown at the beginning of the file
+        if (!re.test(data)) {
+          result.create = true
+          result.update = false
+          resultData = badgeMarkdown + '\n\n' + resultData
+        } else {
+          result.update = true
+          result.create = false
+        }
+        result.data = resultData
+
+        fs.writeFile(readmeFile, resultData, 'utf8', function (err) {
+          if (err) {
+            result.error = err
+            cb(result)
+          } else {
+            result.success = true
+            cb(result)
+          }
+        })
+      }
+    })
+  },
+
+  writeReport: function (collector, sync) {
+    var outputFile = path.resolve(this.opts.dir, this.opts.file)
+    /* istanbul ignore next */
     var writer = this.opts.writer || new FileWriter(sync)
     var that = this
     var summaries = []
     var finalSummary
     var metrics
     var badgeUrl
-    var badgeMd
-    var colors = {
-      low: 'red',
-      medium: 'yellow',
-      high: 'brightgreen'
-    }
-    var level
+    var badgeMarkdown
 
-    writer.on('done', function() {
+    writer.on('done', 
+    /* istanbul ignore next */
+    function () {
       that.emit('done')
     })
 
-    collector.files().forEach(function (file) {
+    collector.files().forEach(
+    /* istanbul ignore next */
+    function (file) {
       summaries.push(utils.summarizeFileCoverage(collector.fileCoverageFor(file)))
     })
     finalSummary = utils.mergeSummaryObjects.apply(null, summaries)
 
     metrics = finalSummary[this.coverageType]
-    level = metrics.pct >= this.range[1] ? 'high' : metrics.pct >= this.range[0] ? 'medium' : 'low'
-    badgeUrl = 'https://img.shields.io/badge/' + this.subject + '-' + metrics.pct + '%25-' + colors[level] +'.svg'
-    badgeMd = '[![' + badgeUrl + '](' + badgeUrl + ')](' + badgeUrl + ')'
+    badgeUrl = this.generateBadgeUrl(metrics)
+    badgeMarkdown = this.generateBadgeMarkdown(badgeUrl)
 
     writer.writeFile(outputFile, function(contentWriter) {
-      contentWriter.write(badgeUrl + '\n' + badgeMd)
+      contentWriter.write(badgeUrl + '\n' + badgeMarkdown)
+      that.replaceInFile(badgeMarkdown, 
+      /* istanbul ignore next */
+      function (result) {
+        // result.success
+      })
     })
 
     writer.done()

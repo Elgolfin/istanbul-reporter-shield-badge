@@ -1,4 +1,6 @@
-# istanbul-reporter-shield-badge
+![coverage-shield-badge-1](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)
+
+# Istanbul Report Shields.io Badge
 
 Generates a shields.io url representing the coverage of your tests suit.
 Also generates the markdown equivalent code.
@@ -6,7 +8,6 @@ Also generates the markdown equivalent code.
 ## Install
 
 > npm install --save-dev istanbul-reporter-shield-badge
-
 
 ## Usage
 
@@ -46,12 +47,17 @@ config.set({
 ```
 
 ### Config options
-|name        |default                  |description                                                                                                               |
-|------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------|
-|file        |coverage.shield.badge.md |the file where the url of the badge will be generated                                                                                                                          |
-|subject     |coverage                 |the text that will appear on the left of the shield badge                                                                                                                          |
-|range       |[50, 80]                 |must be a JavaScript Array representing medium and high levels of coverage                                                |
-|coverageType|lines                    |must be one of: statements, lines, branches, functions; will be used to display the coverage percentage of the chosen type|
+|name          |default                  |description                                                                                                                      |
+|--------------|-------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+|file          |coverage.shield.badge.md |the file where the url of the badge will be generated                                                                            |
+|subject       |coverage                 |the text that will appear on the left of the shield badge                                                                        |
+|range         |[50, 80]                 |must be a JavaScript Array representing medium and high levels of coverage                                                       |
+|coverageType  |lines                    |must be one of: statements, lines, branches, functions; will be used to display the coverage percentage of the chosen type       |
+|readmeFilename|null                     |the name of your readme file; **MUST BE readme.md (only) in its exact case; the Readme file MUST BE at the root of your project**|
+
+N.b: if you supply the readmeFilename configuration, the reporter will add the markdown of the badge into your Readme.md file at the very beginning of the file.
+Once added, you are free to move the markdown code anywhere wihtin the Readme.md file and the next time the reporter will run, 
+it will automatically replace the previous badge with the new generated one.
 
 #### Karma Configuration File Example
 
@@ -71,8 +77,9 @@ config.set({
                 }(),
           subdir: '.',
           coverageType: 'statements',
-          range: [50, 80],
-          subject: 'Code Coverage'
+          range: [50, 75],
+          subject: 'Code Coverage', 
+          readmeFilename: 'README.md'
         }
       ]
     }
@@ -80,7 +87,9 @@ config.set({
 ```
 
 The example above will generate the following shields.io badge for a coverage percentage of 77.91% at the statements level: 
-[![Code Coverage](https://img.shields.io/badge/Code Coverage-77.91%25-brightgreen.svg)](https://img.shields.io/badge/Code Coverage-77.91%25-brightgreen.svg)
+![Code Coverage-shield-badge-1](https://img.shields.io/badge/Code%20Coverage-77.91%25-brightgreen.svg)
+
+It will also include it in the README.md file located at the root of your project.
 
 ## LICENSE
 
