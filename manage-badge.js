@@ -1,5 +1,5 @@
 /* **************
-The only prupose of this script is used by the npm test script to simulate the writing of the badge within the README.md file
+The only purpose of this script is to be used by the npm test script to simulate the writing of a badge within the README.md file
 ************** */ 
 
 var fs = require('fs')
