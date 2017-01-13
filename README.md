@@ -1,4 +1,4 @@
-![coverage-shield-badge-1](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)
+[![CircleCI](https://circleci.com/gh/Elgolfin/istanbul-reporter-shield-badge.svg?style=shield)](https://circleci.com/gh/Elgolfin/istanbul-reporter-shield-badge) ![Local Coverage-shield-badge-1](https://img.shields.io/badge/Local%20Coverage-100%25-brightgreen.svg) [![codecov](https://codecov.io/gh/Elgolfin/istanbul-reporter-shield-badge/branch/master/graph/badge.svg)](https://codecov.io/gh/Elgolfin/istanbul-reporter-shield-badge) ![dependencies](https://david-dm.org/Elgolfin/istanbul-reporter-shield-badge.svg)
 
 # Istanbul Reporter Shields.io Badge
 
@@ -50,7 +50,7 @@ config.set({
 |name          |default                  |description                                                                                                                       |
 |--------------|-------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 |file          |coverage.shield.badge.md |the file where the url of the badge will be generated                                                                             |
-|subject       |coverage                 |the text that will appear on the left of the shield badge                                                                         |
+|subject       |coverage                 |the text that will appear on the left of the shield badge; cannot contain the character ']' (closed bracket)                                                                         |
 |range         |[50, 80]                 |must be a JavaScript Array representing medium and high levels of coverage                                                        |
 |coverageType  |lines                    |must be one of: statements, lines, branches, functions; will be used to display the coverage percentage of the chosen type        |
 |readmeFilename|null                     |the name of your readme file; **MUST BE readme.md (only) in any case                                                              |

@@ -18,7 +18,7 @@ istanbul.Report.register(shieldBadgeReporter)
 var report = Report.create('shield-badge', {
   readmeFilename: 'README.md',
   readmeDir: path.resolve(__dirname, '.'),
-  dir: 'coverage'
+  subject: 'Local Coverage'
 })
 
 var files = ['istanbul-reporter-shield-badge.js', 'test/istanbul-reporter-shield-badge.spec.js']
