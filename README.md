@@ -57,7 +57,7 @@ config.set({
 |readmeDir     |null                     |the **absolute** path of the folder where is located your readme.md file                                                                       |
 
 N.b: if you supply the readmeFilename configuration, the reporter will add the markdown of the badge into your Readme.md file at the very beginning of the file.
-Once added, you are free to move the markdown code anywhere wihtin the Readme.md file and the next time the reporter will run, 
+Once added, you are free to move the markdown code anywhere within the Readme.md file and the next time the reporter will run, 
 it will automatically replace the previous badge with the new generated one.
 
 #### Karma Configuration File Example

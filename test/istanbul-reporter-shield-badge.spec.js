@@ -9,7 +9,7 @@ var ShieldBadgeReporter = require('../istanbul-reporter-shield-badge')
 require('chai').should()
 
 describe('ShieldBadgeReporter', function () {
-
+  'use strict'
   let sandbox
   beforeEach(() => {
     sandbox = sinon.sandbox.create()

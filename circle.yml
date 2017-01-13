@@ -1,0 +1,9 @@
+machine:
+    timezone:
+        America/Montreal
+    node:
+        version:
+            7.1.0
+test:
+  post:
+    - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
