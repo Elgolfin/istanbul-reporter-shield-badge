@@ -1,9 +1,14 @@
-[![CircleCI](https://circleci.com/gh/Elgolfin/istanbul-reporter-shield-badge.svg?style=shield)](https://circleci.com/gh/Elgolfin/istanbul-reporter-shield-badge) ![Local Coverage-shield-badge-1](https://img.shields.io/badge/Local%20Coverage-100%25-brightgreen.svg) [![codecov](https://codecov.io/gh/Elgolfin/istanbul-reporter-shield-badge/branch/master/graph/badge.svg)](https://codecov.io/gh/Elgolfin/istanbul-reporter-shield-badge) ![dependencies](https://david-dm.org/Elgolfin/istanbul-reporter-shield-badge.svg)
-
 # Istanbul Reporter Shields.io Badge
+
+**Built for developers out there who do not want to (or cannot) rely on (and/or use) third-party services like http://codecov.io/ or http://coveralls.io/.**
 
 Generates a shields.io url representing the coverage of your tests suit.
 Also generates the markdown equivalent code.
+More importantly, it updates automatically your README.md file with the generated markdown each time you are running your tests.
+
+## Project Health
+
+[![CircleCI](https://circleci.com/gh/Elgolfin/istanbul-reporter-shield-badge.svg?style=shield)](https://circleci.com/gh/Elgolfin/istanbul-reporter-shield-badge) ![Local Coverage-shield-badge-1](https://img.shields.io/badge/Local%20Coverage-100%25-brightgreen.svg) [![codecov](https://codecov.io/gh/Elgolfin/istanbul-reporter-shield-badge/branch/master/graph/badge.svg)](https://codecov.io/gh/Elgolfin/istanbul-reporter-shield-badge) ![dependencies](https://david-dm.org/Elgolfin/istanbul-reporter-shield-badge.svg)
 
 ## Install
 
@@ -50,15 +55,17 @@ config.set({
 |name          |default                  |description                                                                                                                       |
 |--------------|-------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 |file          |coverage.shield.badge.md |the file where the url of the badge will be generated                                                                             |
-|subject       |coverage                 |the text that will appear on the left of the shield badge; cannot contain the character ']' (closed bracket)                                                                         |
+|subject       |coverage                 |the text that will appear on the left of the shield badge; cannot contain the character ']' (closed bracket)                      |
 |range         |[50, 80]                 |must be a JavaScript Array representing medium and high levels of coverage                                                        |
 |coverageType  |lines                    |must be one of: statements, lines, branches, functions; will be used to display the coverage percentage of the chosen type        |
-|readmeFilename|null                     |the name of your readme file; **MUST BE readme.md (only) in any case                                                              |
-|readmeDir     |null                     |the **absolute** path of the folder where is located your readme.md file                                                                       |
+|readmeFilename|null                     |the name of your readme file; **MUST BE readme.md (only) in any case**                                                            |
+|readmeDir     |null                     |the **absolute** path of the folder where is located your readme.md file                                                          |
+
 
 N.b: if you supply the readmeFilename configuration, the reporter will add the markdown of the badge into your Readme.md file at the very beginning of the file.
 Once added, you are free to move the markdown code anywhere within the Readme.md file and the next time the reporter will run, 
 it will automatically replace the previous badge with the new generated one.
+
 
 #### Karma Configuration File Example
 
