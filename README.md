@@ -66,6 +66,15 @@ N.b: if you supply the readmeFilename configuration, the reporter will add the m
 Once added, you are free to move the markdown code anywhere within the Readme.md file and the next time the reporter will run, 
 it will automatically replace the previous badge with the new generated one.
 
+#### Standalone Usage Example
+
+Please refer to the [sample script](https://github.com/Elgolfin/istanbul-reporter-shield-badge/blob/master/update-readme-with-shield-badge.js).
+
+It was used in the package.json file as the 'npm test script' as follows:
+
+```bash
+istanbul cover _mocha test && node update-readme-with-shield-badge.js
+```
 
 #### Karma Configuration File Example
 
