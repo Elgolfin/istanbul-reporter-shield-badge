@@ -4,7 +4,7 @@
   "description": "",
   "main": "istanbul-reporter-shield-badge.js",
   "scripts": {
-    "test": "istanbul cover _mocha test && node manage-badge.js",
+    "test": "istanbul cover _mocha test && node update-readme-with-shield-badge.js",
     "testwatch": "mocha test -w"
   },
   "repository": {
