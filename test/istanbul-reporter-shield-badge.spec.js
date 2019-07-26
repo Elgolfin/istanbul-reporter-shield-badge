@@ -317,5 +317,36 @@ describe('ShieldBadgeReporter', function () {
     expect(replaceInFileStub).has.been.calledOnce
 
   })
+
+  it('should emit complete event when writeReport is fully done', function(done) {
+    var fileWriter = new FileWriter(true)
+    sandbox.stub(fileWriter, 'on')
+    sandbox.stub(fileWriter, 'done')
+    var fileWriter_Write = sandbox.stub(fileWriter, 'writeFile')
+    fileWriter_Write.yields({write: function () {}})
+
+    var reporter = new ShieldBadgeReporter({writer: fileWriter, coverageType: '', subject: 'test', range: [75, 90], readmeFilename: 'README.md'})
+    
+    var collector = new Collector()
+    var collectorStub = sandbox.stub(collector, 'files')
+    collectorStub.returns([])
+
+    var utilsStub = sandbox.stub(utils, 'mergeSummaryObjects')
+    utilsStub.returns({lines: {pct: '90'}})
+
+    var consoleStub = sandbox.stub(console, 'log');
+
+    var replaceInFileStub = sandbox.stub(reporter, 'replaceInFile', function(badgeMarkdown, cb) {
+      cb({success: true, create: false});
+    });
+
+    reporter.on('complete', function() {
+      consoleStub.restore();
+      expect(replaceInFileStub).has.been.calledOnce
+      done();
+    });
+
+    reporter.writeReport(collector, true)
+  })
   
 })

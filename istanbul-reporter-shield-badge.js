@@ -220,6 +220,7 @@ Report.mix(ShieldBadgeReporter, {
         } else {
           console.log('Error while adding/updating the shield badge in your ' + that.readmeFilename + ' file: ' + result.error)
         }
+        that.emit('complete');
       })
     })
 
