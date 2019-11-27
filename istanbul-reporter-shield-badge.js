@@ -154,7 +154,7 @@ Report.mix(ShieldBadgeReporter, {
         result.error = err
         cb(result)
       } else {
-        var re = /!\[[^\]]+-shield-badge-[0-9]\]\([^)]+\)/gi  // Not greedy but restrictive
+        var re = /!\[[^\]]+-shield-badge-[0-9]\]\(https:\/\/.+\.svg\)/gi  // Not greedy but restrictive
         var resultData = data.replace(re, badgeMarkdown);
 
         // The badge markdown was not present, append the badge markdown at the beginning of the file

@@ -230,6 +230,27 @@ describe('ShieldBadgeReporter', function () {
     })
   })
 
+  it('should update an existing badge in the README.md if the config is properly set (subject may contain parentheses!)', function(done) {
+    var reporter = new ShieldBadgeReporter({coverageType: '', subject: 'Coverage (statements)', range: [75, 90], readmeFilename: 'README.md'})
+    var oldBadgeMarkdown = '![Coverage (statements)-shield-badge-1](https://img.shields.io/badge/Coverage%20(statements)-100%25-brightgreen.svg)'
+    var newBadgeMarkdown = '![Coverage (statements)-shield-badge-1](https://img.shields.io/badge/Coverage%20(statements)-100%25-brightgreen.svg)'
+
+    var readFileStub = sandbox.stub(fs, 'readFile')
+    readFileStub.yields(null, oldBadgeMarkdown)
+
+    var writeFileStub = sandbox.stub(fs, 'writeFile')
+    writeFileStub.yields(null)
+
+    reporter.replaceInFile(newBadgeMarkdown, function (result) {
+      expect(result.success).to.equal(true)
+      expect(result.create).to.equal(false)
+      expect(result.update).to.equal(true)
+      expect(result.data).to.equal(newBadgeMarkdown)
+      expect(result.error).to.equal('')
+      done()
+    })
+  })
+
   it('should update an existing identical badge in the README.md if the config is properly set', function(done) {
     var reporter = new ShieldBadgeReporter({coverageType: '', subject: 'test', range: [75, 90], readmeFilename: 'README.md', readmeDir: '.'})
     var oldBadgeMarkdown = '![test-shield-badge-1](https://img.shields.io/badge/coverage-80%25-yellow.svg)'
